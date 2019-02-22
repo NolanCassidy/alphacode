@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- saved from url=(0070)https://classes.cs.uoregon.edu/16F/cis210/assignments/W1-alphacode.php -->
+<html class="gr__classes_cs_uoregon_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- This is for the <head> section of CIS210 pages,
+     not for the page header in the <body> section. 
+   Include here metadata including css links, etc., 
+   but omit the <title> element which may be specific
+   to each page. 
+   Set $root before calling this.
+-->
+
+
+<meta name="description" content="CIS 210, Computer Science 1">
+<meta name="keywords" content="Computer science, CS1"> 
+<meta name="author" content="Michal Young"> 
+
+   <link rel="stylesheet" type="text/css" href="./CIS 210 Project 1, Part 1_files/cis210.css" media="screen">
+   <link rel="stylesheet" type="text/css" href="./CIS 210 Project 1, Part 1_files/cis210-print.css" media="print">
+
+<title>CIS 210 Project 1, Part 1</title></head>
+
+<body data-gr-c-s-loaded="true">
+<div class="container">
+
+  <!-- pagehead.php: Page header to include on each page -->
+
+<div class="pageheader">
+   <div class="title">
+   <h1>CIS 210, Fall 2016<br> Introduction to Computer Science</h1>
+   </div> <!-- title -->
+   </div> <!-- pageheader -->
+<!-- end pagehead.php -->
+  <!-- sidebar.php:  Sidebar to be replicated on each page 
+     Note links must be relative to site URL-->
+<div class="sidenav">
+   <h1>Main Menu</h1>
+   <ul>
+   <li><a href="https://classes.cs.uoregon.edu/16F/cis210/index.php">Class home page</a></li>
+   <li><a href="https://piazza.com/uoregon/fall2016/cis210/home">Piazza</a></li>
+   <li><a href="https://classes.cs.uoregon.edu/16F/cis210/hints.php">How to Succeed</a></li>
+   <li><a href="https://classes.cs.uoregon.edu/16F/cis210/schedule.php">Schedule</a></li>
+   <li><a href="https://classes.cs.uoregon.edu/16F/cis210/assignments.php">Assignments</a></li>
+   <li><a href="https://classes.cs.uoregon.edu/16F/cis210/references.php">References</a></li>
+  <li><a href="https://classes.cs.uoregon.edu/16F/cis210/exams.php">Exams</a></li>
+<!--
+  <li><a href="/16F/cis210/assignments/Contest.php" >Contest</a></li>
+-->
+   </ul>
+</div>
+
+<div class="content">
+
+<div class="item">
+  <h1>Project 1, Part 1</h1>
+<p>This assignment is due Friday, September 30 at 5pm. Save your Python program
+  in a file called alphacode.py and turn that file in using Canvas.</p>
+<h1>Purpose</h1>
+  <p>Practice sequential programming.  Understand numeric
+  representation and modular arithmetic. 
+</p>
+</div>
+
+
+<div class="item">
+<h1>Too many PINs</h1>
+
+  <p>We have to remember too many numbers:  credit card PINs, student
+  ID number, codes to open doors, and on and on.  We're warned that we
+  should remember these numbers instead of writing them down, but
+  really the human brain is not well-suited to remembering a lot of
+  meaningless numbers.  I'll admit: I write them down.  But could I
+  remember more?</p>
+  <p>People aren't any better at remembering random sequences of
+  letters than remembering random sequences of digits.  However, we
+  are much better at remembering sounds we can pronounce. The word 
+ “fesi” doesn't mean anything to me, but it's easier to
+  remember than the number 2354 or the harder-to-pronounce word
+  “iksf”. It turns out to be pretty easy to convert
+  numbers like 2354 into pronounceable nonsense words like
+  “fesi”</p> 
+
+  <p>To create words that are easy to pronounce, we can build them out
+  of consonant-vowel pairs like “ka” or “te”.
+  As it turns out, if we omit ‘x’ and treat
+  ‘y’ as a consonant, the English alphabet has 20
+  consonants (bcdfghjklmnpqrstvwyz) and 5 vowels (aeiou). 20×5=10×10=100,  so one consonant and a
+  vowel (20×5 combinations) is just enough to represent a pair
+  of decimal digits (10×10 combinations). </p>
+
+  <p>To convert a number (like a phone number, 346-4140) into
+  a pronounceable string, we'll need to divide it into two-digit
+  chunks. </p>
+  <img src="./CIS 210 Project 1, Part 1_files/alphacode-divide.png" scale="0.5">
+  <p>We're dividing it up in base 10; the underlying representation in
+  base 2 is not relevant to us in this program.  To get the last two
+  (low order) digits in base 10, we can take the remainder when
+  divided by 100, using the ‘%’ operator.  To get the rest
+  of the digits, we'll use 
+  integer division ‘//’, because we want an integer result
+  (34641, not 34641.40).</p>
+  <img src="./CIS 210 Project 1, Part 1_files/alphacode-strip2digits.png">
+
+  <p>Now we want to convert those last two decimal digits, 40, into
+  letters.  We have 20 consonants and 5 vowels. Suppose we divide a
+  number between 0 and 99 by 5.  The quotient will be a number
+  in the range 0..19, and the remainder will be in the range 0..4: 
+  </p>
+  <img src="./CIS 210 Project 1, Part 1_files/alphacode-base-5.png">
+  <p>Just right for picking one of 20 consonants and one of 5
+  vowels!</p>
+  <img src="./CIS 210 Project 1, Part 1_files/alphacode-letters.png">
+  <p>If I do this again for the next two digits (41), and the next
+  (46), and then the highest digit (3, treated as 03), the phone
+  number can be converted to the word “bomelela”. It has a
+  nice ring to it.</p>
+
+</div>
+<div class="item">
+  <h1>Requirements</h1>
+  <p>You will create a Python program to automate the process
+  described above.  To keep it simple, start by converting 
+  only 4-digit numbers, like credit card PINs. The input to
+  your program is a 4-digit decimal number on the command line, and
+  the output should be formatted <em>exactly</em> as shown in these
+  examples:</p>
+  <code>
+  $ python3 alphacode.py 4327
+  Encoding of 4327 is lohi
+  $ python3 alphacode.py 1298
+  Encoding of 1298 is dizo
+  </code>
+
+  <p>After your program works correctly for four digit numbers,
+  make it work for positive integers of any length.  Don't do it by
+  making your program long and repetitious.  Use a loop instead.
+  Each time through the loop, in addition to converting the last 
+  two digits of the PIN code to letters, chop those digits off
+  the PIN code using integer division.  If you keep chopping off
+  digits, eventually what is left is zero, so your loop could
+  be controlled by</p>
+  <code>
+  while pin &gt; 0:
+      # your code in the loop
+  </code>
+  <p>If you have trouble designing the loop, use Piazza to ask
+  questions or see us in lab or office hours.
+  </p>
+
+</div>
+<div class="item">
+  <h1>Getting started</h1>
+  <p>This <a href="https://classes.cs.uoregon.edu/16F/cis210/assignments/base/alphacode.py">starter code</a> 
+    may be helpful.  You will also need the <tt>test_harness.py</tt>
+  library module from the <a href="https://classes.cs.uoregon.edu/16F/cis210/assignments/base/test_harness.py">here</a>.
+    </p>
+    </div>
+<div class="item">
+  <h1>Challenge yourself</h1>
+  <p>If you are learning Python for the first time, I think learning
+  to express this algorithm in Python and make your program work
+  correctly will be enough of a challenge to get started.  
+  But if you've just finished CIS 122, or have other experience
+  programming in Python, perhaps this assignment is not challenging
+  enough.  Here is something you can do to make it a little more 
+  interesting: 
+  These alphabetic codes don't really help unless we also have a
+    way to convert a word back into a number.  Make your program
+    convert either way:  If the input is an integer, convert it to a
+    word.  If the input is a word of the correct form (consonants
+    alternating with vowels), convert it back to an integer.  If the
+    input cannot be encoded or decoded (e.g., abba123 cannot be
+    translated either direction), print a useful error message.
+  </p>
+  <p>There are no points for this extra work.  Do it only if it makes
+  the project more interesting and challenging.  If you do part or all
+  of the extra work, the header comment of your file should include a
+  note describing what you implemented, and how. </p>
+</div>
+<div class="item">
+<h1>Grading</h1>
+<p>35 points possible</p>
+  <ul>
+    <li>15: Program runs and consistently produces correct
+    output for positive integers of any length. 10 points if it works
+    only for four-digit integers. 5 points if it produces some
+    consistent alphabetic code (unique for each integer input) but
+    doesn't match the specified output.
+    </li>
+
+    <li>10: Follows <a href="https://classes.cs.uoregon.edu/16F/cis210/handouts/styleguide.php">CIS 210 coding guidelines</a>, including author
+    identification and header .</li>
+    <li>10: Clarity.  The program should not only be consistent with
+    the requirements and approach described here, but it should be
+    very easy to read the program and verify its consistency with the
+    spec. </li>
+   </ul>
+</div>
+
+
+
+</div> <!-- class content -->
+
+<!-- pagefoot.php: Page footing to include on each page -->
+<div class="clearer">  </div>
+   <div class="footer">
+
+   <span style="float: left">
+   Contact <a href="mailto:jsventek@uoregon.edu?subject=CIS%20210%20web%20site">webmaster</a>.
+   </span>
+   <span style="float: right">  Based loosely on Transparentia design by Arcsin, from OSWD.org. </span>
+      &nbsp; <!-- Space to put the two floats above.  Setting text justification does not seem to do it. -->
+   </div>
+<!-- Track our traffic ?? -->
+<!-- End pagefoot.php -->
+
+</div> <!-- class container -->
+
+
+
+
+</body><span class="gr__tooltip"><span class="gr__tooltip-content"></span><i class="gr__tooltip-logo"></i><span class="gr__triangle"></span></span></html>
